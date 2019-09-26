@@ -5,9 +5,9 @@ import android.content.Context;
 import com.chaochao.app.net.data.interceptor.CacheControlInterceptor;
 import com.chaochao.app.net.data.interceptor.LogInterceptor;
 import com.chaochao.app.net.data.ssl.CustomTrustManager;
+import com.chaochao.app.net.data.util.AppUtil;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
@@ -20,21 +20,44 @@ import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.fastjson.FastJsonConverterFactory;
 
 public class HttpHelper {
     private static final int DEFAULT_TIMEOUT = 30;
     private HashMap<String, Object> mServiceMap;
     private Context mContext;
+    private static HttpHelper sHelper;
+    private static Retrofit sRetrofit;
 //    private Gson gson = new GsonBuilder().setLenient().create();
 
+    public static HttpHelper getInstance() {
+        if (sHelper == null) {
+            synchronized (HttpHelper.class) {
+                if (sHelper == null) {
+                    sHelper = new HttpHelper(AppUtil.getApplicationByReflect());
+                }
+            }
+        }
+        return sHelper;
+    }
 
-    public HttpHelper(Context context) {
+    private HttpHelper(Context context) {
         //Map used to store RetrofitService
         mServiceMap = new HashMap<>();
         this.mContext = context;
     }
 
+    public void initApi(String baseUrl) {
+        if (sRetrofit != null) {
+            return;
+        }
+        sRetrofit = new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .addConverterFactory(FastJsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .client(getClient())
+                .build();
+    }
 
     @SuppressWarnings("unchecked")
     public <S> S getApi(Class<S> serviceClass) {
@@ -47,21 +70,7 @@ public class HttpHelper {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public <S> S getApi(Class<S> serviceClass, OkHttpClient client) {
-        if (mServiceMap.containsKey(serviceClass.getName())) {
-            return (S) mServiceMap.get(serviceClass.getName());
-        } else {
-            Object obj = createApi(serviceClass, client);
-            mServiceMap.put(serviceClass.getName(), obj);
-            return (S) obj;
-        }
-    }
-
-    private <S> S createApi(Class<S> serviceClass) {
-//        private static final HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
-
-        //custom OkHttp
+    private OkHttpClient getClient() {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         //time our
         httpClient.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
@@ -79,11 +88,10 @@ public class HttpHelper {
         //todo SSL证书
         httpClient.sslSocketFactory(getSSLSocketFactory());
         httpClient.hostnameVerifier(org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-
-        return createApi(serviceClass, httpClient.build());
+        return httpClient.build();
     }
 
-    public static SSLSocketFactory getSSLSocketFactory() {
+    private static SSLSocketFactory getSSLSocketFactory() {
         SSLSocketFactory ssfFactory = null;
 
         try {
@@ -91,31 +99,16 @@ public class HttpHelper {
             sc.init(null, new TrustManager[]{new CustomTrustManager()}, new SecureRandom());
             ssfFactory = sc.getSocketFactory();
         } catch (Exception e) {
+            e.printStackTrace();
         }
-
         return ssfFactory;
     }
 
-    private <S> S createApi(Class<S> serviceClass, OkHttpClient client) {
-        String end_point = "";
-        try {
-            Field field1 = serviceClass.getField("end_point");
-            end_point = (String) field1.get(serviceClass);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.getMessage();
-            e.printStackTrace();
+    private <S> S createApi(Class<S> serviceClass) {
+        if (sRetrofit == null) {
+            throw new RuntimeException("please invoke HttpHelper.getInstance().initApi(baseUrl);");
         }
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(end_point)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(client)
-                .build();
-
-        return retrofit.create(serviceClass);
+        return sRetrofit.create(serviceClass);
     }
 
 }

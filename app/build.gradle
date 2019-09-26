@@ -24,4 +24,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation libraries.appcompatV7
+    implementation project(':net')
 }

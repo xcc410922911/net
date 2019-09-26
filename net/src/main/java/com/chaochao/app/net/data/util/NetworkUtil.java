@@ -3,8 +3,7 @@ package com.chaochao.app.net.data.util;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-
-import androidx.annotation.RequiresPermission;
+import android.support.annotation.RequiresPermission;
 
 import static android.Manifest.permission.ACCESS_NETWORK_STATE;
 

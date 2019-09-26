@@ -73,6 +73,7 @@ ext {
             rxPermission               : 'com.tbruyelle.rxpermissions:rxpermissions:' + depsVersion.rxpermissionsVersion,
             retrofit                   : 'com.squareup.retrofit2:retrofit:' + depsVersion.retrofitVersion,
             converterGson              : 'com.squareup.retrofit2:converter-gson:' + depsVersion.retrofitVersion,
+            converterFastJson          : 'org.ligboy.retrofit2:converter-fastjson-android:' + depsVersion.retrofitVersion,
             converterJackson           : 'com.squareup.retrofit2:converter-jackson:' + depsVersion.retrofitVersion,
             adapterRxjava              : 'com.squareup.retrofit2:adapter-rxjava:' + depsVersion.retrofitVersion,
             butterknife                : 'com.jakewharton:butterknife:' + depsVersion.butterknifeVersion,

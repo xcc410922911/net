@@ -29,16 +29,17 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //RxAndroid
-    implementation libraries.rxandroid
+    api libraries.rxandroid
     //RxJava
-    implementation libraries.rxjava
+    api libraries.rxjava
     //retrofit
-    implementation libraries.retrofit
-    implementation libraries.converterGson
+    api libraries.retrofit
+    implementation libraries.converterFastJson
     implementation libraries.adapterRxjava
     //okHttp
     implementation libraries.okhttp
     implementation libraries.okhttpUrlconnection
     implementation libraries.loggingInterceptor
     implementation libraries.supportAnnotations
+    compile 'org.ligboy.retrofit2:converter-fastjson-android:2.1.0'
 }
