@@ -46,3 +46,18 @@ dependencies {
     api libraries.rxLifecycle_android
     api libraries.rxLifecycle_components
 }
+
+tasks.withType(Javadoc) {
+    options.addStringOption("Xdoclint:none", "-quiet")
+    options.addStringOption("encoding","UTF-8")
+}
+apply plugin: 'com.novoda.bintray-release'
+publish {
+    repoName = 'android'
+    userOrg = 'xuechaochaobintray'
+    groupId = 'com.chaochao.app'
+    artifactId = 'net'
+    publishVersion = '0.0.1'
+    desc = "net"
+}
+//gradlew clean build bintrayUpload -PbintrayUser=xuechaochaobintray -PbintrayKey=b35238a31c6446fe38b34e629e95115afa64590e -PdryRun=false

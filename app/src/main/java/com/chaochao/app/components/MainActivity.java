@@ -5,9 +5,9 @@ import android.os.Handler;
 import android.widget.Toast;
 
 import com.chaochao.app.components.api.ApiService;
-import com.chaochao.app.components.api.BaseObserver;
 import com.chaochao.app.components.api.bean.TestBean;
 import com.chaochao.app.net.data.HttpHelper;
+import com.chaochao.app.components.api.BaseObserver;
 import com.chaochao.app.net.data.helper.RxHelper;
 import com.trello.rxlifecycle2.components.RxActivity;
 
@@ -33,8 +33,8 @@ public class MainActivity extends RxActivity {
                 .subscribe(new BaseObserver<TestBean>() {
 
                     @Override
-                    public void onSuccess(TestBean t) {
-                        Toast.makeText(MainActivity.this, t.getDescribe(), Toast.LENGTH_SHORT).show();
+                    public void onSuccess(TestBean testBean) {
+                        Toast.makeText(MainActivity.this, testBean.getDescribe(), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override

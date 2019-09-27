@@ -8,6 +8,8 @@ package com.chaochao.app.components.api;
  */
 public class BaseResponse<T> {
 
+    public static final int SUCCESS_CODE = 0;
+
     public int code;
     public String message;
     public String errorMsg;

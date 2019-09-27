@@ -25,7 +25,7 @@ public abstract class BaseObserver<T> implements Observer<BaseResponse<T>> {
     @Override
     public void onNext(BaseResponse<T> response) {
         //在这边对 基础数据 进行统一处理  举个例子：
-        if (response.code == 0) {
+        if (response.code == BaseResponse.SUCCESS_CODE) {
             onSuccess(response.bizContent);
         } else {
             onFailure(null, response.errorMsg);
