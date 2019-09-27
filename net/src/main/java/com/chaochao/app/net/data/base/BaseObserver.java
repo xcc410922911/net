@@ -44,7 +44,7 @@ public abstract class BaseObserver<T> implements Observer<BaseResponse<T>> {
         Log.e(TAG, "onComplete: ");
     }
 
-    public abstract void onSuccess(T t);
+    protected abstract void onSuccess(T t);
 
-    public abstract void onFailure(Throwable e, String errorMsg);
+    protected void onFailure(Throwable e, String errorMsg){}
 }

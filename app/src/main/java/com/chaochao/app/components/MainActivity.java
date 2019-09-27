@@ -36,11 +36,6 @@ public class MainActivity extends Activity {
                     public void onSuccess(TestBean testBean) {
                         Toast.makeText(MainActivity.this, testBean.getDescribe(), Toast.LENGTH_SHORT).show();
                     }
-
-                    @Override
-                    public void onFailure(Throwable e, String errorMsg) {
-
-                    }
                 });
     }
 }
