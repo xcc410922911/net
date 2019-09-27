@@ -1,4 +1,4 @@
-package com.chaochao.app.components.api;
+package com.chaochao.app.net.data.base;
 
 import android.util.Log;
 
@@ -25,10 +25,10 @@ public abstract class BaseObserver<T> implements Observer<BaseResponse<T>> {
     @Override
     public void onNext(BaseResponse<T> response) {
         //在这边对 基础数据 进行统一处理  举个例子：
-        if (response.code == BaseResponse.SUCCESS_CODE) {
-            onSuccess(response.bizContent);
+        if (response.getCode() == response.getSuccessCode()) {
+            onSuccess(response.getData());
         } else {
-            onFailure(null, response.errorMsg);
+            onFailure(null, response.getErrorMsg());
         }
         Log.e(TAG, "onNext: " + JSON.toJSONString(response));
     }

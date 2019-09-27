@@ -27,11 +27,19 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class RxHelper {
 
-    public static <T> ObservableTransformer<T, T> observableIO2Main(final Context context) {
+    public static <T> ObservableTransformer<T, T> observableIO2Main() {
         return upstream -> {
             Observable<T> observable = upstream.subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread());
-            return composeContext(context, observable);
+            return composeContext(null, observable);
+        };
+    }
+
+    public static <T> ObservableTransformer<T, T> observableIO2IO() {
+        return upstream -> {
+            Observable<T> observable = upstream.subscribeOn(Schedulers.io())
+                    .observeOn(Schedulers.io());
+            return observable;
         };
     }
 
@@ -47,6 +55,9 @@ public class RxHelper {
     }
 
     private static <T> ObservableSource<T> composeContext(Context context, Observable<T> observable) {
+        if (context == null) {
+            return observable;
+        }
         if(context instanceof RxActivity) {
             return observable.compose(((RxActivity) context).bindUntilEvent(ActivityEvent.DESTROY));
         } else if(context instanceof RxFragmentActivity){

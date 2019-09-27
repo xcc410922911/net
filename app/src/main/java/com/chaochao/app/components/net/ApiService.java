@@ -1,6 +1,7 @@
-package com.chaochao.app.components.api;
+package com.chaochao.app.components.net;
 
-import com.chaochao.app.components.api.bean.TestBean;
+import com.chaochao.app.components.net.bean.BaseData;
+import com.chaochao.app.components.net.bean.TestBean;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
@@ -14,5 +15,5 @@ import retrofit2.http.GET;
 public interface ApiService {
 
     @GET("app/orderDetail.json")
-    Observable<BaseResponse<TestBean>> test();
+    Observable<BaseData<TestBean>> test();
 }

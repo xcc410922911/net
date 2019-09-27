@@ -34,7 +34,7 @@ public class HttpHelper {
         if (sHelper == null) {
             synchronized (HttpHelper.class) {
                 if (sHelper == null) {
-                    sHelper = new HttpHelper(AppUtil.getApplicationByReflect());
+                    sHelper = new HttpHelper(AppUtil.getApplication());
                 }
             }
         }

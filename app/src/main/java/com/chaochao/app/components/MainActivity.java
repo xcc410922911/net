@@ -1,18 +1,18 @@
 package com.chaochao.app.components;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
 
-import com.chaochao.app.components.api.ApiService;
-import com.chaochao.app.components.api.bean.TestBean;
+import com.chaochao.app.components.net.ApiService;
+import com.chaochao.app.components.net.bean.TestBean;
 import com.chaochao.app.net.data.HttpHelper;
-import com.chaochao.app.components.api.BaseObserver;
+import com.chaochao.app.net.data.base.BaseObserver;
 import com.chaochao.app.net.data.helper.RxHelper;
-import com.trello.rxlifecycle2.components.RxActivity;
 
 
-public class MainActivity extends RxActivity {
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class MainActivity extends RxActivity {
 
     private void net() {
         HttpHelper.getInstance().getApi(ApiService.class).test()
-                .compose(RxHelper.observableIO2Main(this))
+                .compose(RxHelper.observableIO2Main())
                 .subscribe(new BaseObserver<TestBean>() {
 
                     @Override

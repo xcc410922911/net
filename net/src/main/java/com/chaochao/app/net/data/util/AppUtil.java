@@ -15,7 +15,7 @@ public class AppUtil {
 
     public static  Application sApp;
 
-    public static Application getApplicationByReflect() {
+    public static Application getApplication() {
         try {
             if (sApp != null) {
                 return sApp;

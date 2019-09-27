@@ -20,7 +20,7 @@ public class CacheControlInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
-        if (!NetworkUtil.isConnected(AppUtil.getApplicationByReflect())) {
+        if (!NetworkUtil.isConnected(AppUtil.getApplication())) {
             request = request.newBuilder()
                     .cacheControl(CacheControl.FORCE_CACHE)
                     .build();
@@ -28,7 +28,7 @@ public class CacheControlInterceptor implements Interceptor {
 
         Response response = chain.proceed(request);
 
-        if (NetworkUtil.isConnected(AppUtil.getApplicationByReflect())) {
+        if (NetworkUtil.isConnected(AppUtil.getApplication())) {
             int maxAge = 60 * 60; // read from cache for 1 minute
             response.newBuilder()
                     .removeHeader("Pragma")

@@ -1,4 +1,4 @@
-package com.chaochao.app.components.api.bean;
+package com.chaochao.app.components.net.bean;
 
 /**
  * 类描述：

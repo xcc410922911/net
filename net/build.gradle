@@ -57,7 +57,7 @@ publish {
     userOrg = 'xuechaochaobintray'
     groupId = 'com.chaochao.app'
     artifactId = 'net'
-    publishVersion = '0.0.1'
+    publishVersion = '0.0.2'
     desc = "net"
 }
 //gradlew clean build bintrayUpload -PbintrayUser=xuechaochaobintray -PbintrayKey=b35238a31c6446fe38b34e629e95115afa64590e -PdryRun=false
