@@ -31,15 +31,18 @@ dependencies {
     //RxAndroid
     api libraries.rxandroid
     //RxJava
-    api libraries.rxjava
+//    api libraries.rxjava
     //retrofit
     api libraries.retrofit
-    implementation libraries.converterFastJson
+    api libraries.converterFastJson
+    api libraries.fastJson
     implementation libraries.adapterRxjava
     //okHttp
     implementation libraries.okhttp
     implementation libraries.okhttpUrlconnection
     implementation libraries.loggingInterceptor
     implementation libraries.supportAnnotations
-    compile 'org.ligboy.retrofit2:converter-fastjson-android:2.1.0'
+    api libraries.rxLifecycle
+    api libraries.rxLifecycle_android
+    api libraries.rxLifecycle_components
 }

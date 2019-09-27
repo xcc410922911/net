@@ -1,7 +1,9 @@
 package com.chaochao.app.components.api;
 
+import com.chaochao.app.components.api.bean.TestBean;
+
+import io.reactivex.Observable;
 import retrofit2.http.GET;
-import rx.Observable;
 
 /**
  * 类描述：
@@ -12,5 +14,5 @@ import rx.Observable;
 public interface ApiService {
 
     @GET("app/orderDetail.json")
-    Observable<String> test();
+    Observable<BaseResponse<TestBean>> test();
 }

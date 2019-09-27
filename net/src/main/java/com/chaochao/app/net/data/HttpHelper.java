@@ -19,7 +19,7 @@ import javax.net.ssl.TrustManager;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.fastjson.FastJsonConverterFactory;
 
 public class HttpHelper {
@@ -54,7 +54,7 @@ public class HttpHelper {
         sRetrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(FastJsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(getClient())
                 .build();
     }

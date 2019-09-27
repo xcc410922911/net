@@ -1,19 +1,18 @@
 package com.chaochao.app.components;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
 
 import com.chaochao.app.components.api.ApiService;
+import com.chaochao.app.components.api.BaseObserver;
+import com.chaochao.app.components.api.bean.TestBean;
 import com.chaochao.app.net.data.HttpHelper;
-
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import com.chaochao.app.net.data.helper.RxHelper;
+import com.trello.rxlifecycle2.components.RxActivity;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends RxActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,22 +29,17 @@ public class MainActivity extends Activity {
 
     private void net() {
         HttpHelper.getInstance().getApi(ApiService.class).test()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<String>() {
-                    @Override
-                    public void onCompleted() {
+                .compose(RxHelper.observableIO2Main(this))
+                .subscribe(new BaseObserver<TestBean>() {
 
+                    @Override
+                    public void onSuccess(TestBean t) {
+                        Toast.makeText(MainActivity.this, t.getDescribe(), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onFailure(Throwable e, String errorMsg) {
 
-                    }
-
-                    @Override
-                    public void onNext(String s) {
-                        Toast.makeText(MainActivity.this, "s", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
